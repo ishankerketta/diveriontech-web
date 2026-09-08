@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diverion Tech — data-led consulting in Dibrugarh, Assam</title>
+<meta name="description" content="Diverion Consulting works with businesses in Dibrugarh and across Assam, using public economic data to support clearer, evidence-based decisions.">
+<meta name="theme-color" content="#04070A">
+
+<link rel="icon" href="images/logo-mark.png" type="image/png">
+<link rel="apple-touch-icon" href="images/logo-mark.png">
+
+<meta property="og:title" content="Diverion Tech">
+<meta property="og:description" content="Data-led consulting for businesses in Dibrugarh and across Assam.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://diveriontech.com/">
+<meta property="og:image" content="https://diveriontech.com/images/logo-lockup.png">
+
+<style>
+  :root{
+    --ground:#04070A;
+    --surface:#0A1014;
+    --surface-2:#0D151A;
+    --line:#17262C;
+    --line-soft:#101B20;
+    --text:#F1FAFB;
+    --muted:#8CA4AB;
+    --teal:#00E6E6;
+    --teal-dim:#00BFBF;
+    --mickle:#4ADE80;
+    --mickle-dim:#22C55E;
+    --max:1080px;
+    --pad:clamp(1.25rem,5vw,2.5rem);
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--ground);color:var(--text);
+    font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    font-size:clamp(1rem,0.96rem + 0.2vw,1.0625rem);line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;height:auto}
+  a{color:var(--teal);text-decoration:none}
+  a:hover{text-decoration:underline;text-underline-offset:3px}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:4px}
+  .wrap{max-width:var(--max);margin-inline:auto;padding-inline:var(--pad)}
+  .skip{position:absolute;left:-9999px;background:var(--teal);color:#001414;padding:.6rem 1rem;font-weight:600;z-index:10}
+  .skip:focus{left:0;top:0}
+
+  /* header */
+  header{
+    position:sticky;top:0;z-index:5;
+    background:color-mix(in srgb,var(--ground) 90%,transparent);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft);
+  }
+  .bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-block:.875rem}
+  .brand{display:inline-flex;align-items:center;gap:.625rem;color:var(--text);white-space:nowrap}
+  .brand:hover{text-decoration:none}
+  .brand img{width:34px;height:auto;display:block}
+  .brand-name{font-weight:600;letter-spacing:.14em;font-size:.8125rem;text-transform:uppercase}
+  .brand-name span{color:var(--muted);font-weight:500}
+  nav ul{display:flex;gap:1.5rem;list-style:none;margin:0;padding:0;align-items:center}
+  nav a{color:var(--muted);font-size:.9375rem;position:relative;padding-block:.25rem}
+  nav a:hover{color:var(--text);text-decoration:none}
+  nav a[aria-current="page"]{color:var(--text)}
+  nav a[aria-current="page"]::after{
+    content:"";position:absolute;left:0;right:0;bottom:-.35rem;
+    height:2px;border-radius:2px;background:var(--teal);
+  }
+  /* product tab — visually marked as its own destination, not a page anchor */
+  .tab-product{
+    color:var(--mickle,#4ADE80);
+    border:1px solid color-mix(in srgb,var(--mickle,#4ADE80) 32%,transparent);
+    border-radius:999px;padding:.3rem .75rem;
+  }
+  .tab-product:hover{
+    color:#04120A;background:var(--mickle,#4ADE80);
+    border-color:var(--mickle,#4ADE80);text-decoration:none;
+  }
+  @media (max-width:36rem){
+    nav ul{gap:1rem}
+    nav a{font-size:.8125rem}
+    .brand img{width:28px}
+    .brand-name{font-size:.6875rem;letter-spacing:.1em}
+  }
+  @media (max-width:30rem){
+    .bar{flex-wrap:wrap;justify-content:center;gap:.5rem;padding-block:.75rem}
+    nav{width:100%}nav ul{justify-content:center;gap:1.125rem}
+  }
+
+  /* hero */
+  .hero{padding-block:clamp(3.5rem,10vw,6rem) clamp(2.5rem,7vw,4rem)}
+  .hero-grid{display:grid;gap:clamp(2rem,5vw,3.5rem);align-items:center;grid-template-columns:1fr}
+  @media (min-width:52rem){.hero-grid{grid-template-columns:1.15fr .85fr}}
+  .eyebrow{
+    display:inline-block;font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--teal);font-weight:600;margin:0 0 1.25rem;
+  }
+  h1{
+    font-size:clamp(2rem,1.5rem + 2.8vw,3.25rem);line-height:1.1;
+    letter-spacing:-0.03em;font-weight:670;margin:0 0 1.25rem;max-width:20ch;
+  }
+  .lede{font-size:clamp(1.0625rem,1rem + 0.4vw,1.25rem);color:var(--muted);margin:0 0 2rem;max-width:54ch}
+  .hero-art{display:flex;justify-content:center}
+  .hero-art img{width:min(100%,340px);filter:drop-shadow(0 0 60px rgba(0,230,230,.18))}
+  @media (max-width:52rem){
+    .hero-grid{grid-template-columns:1fr}
+    .hero-art{order:-1}
+    .hero-art img{width:min(72%,240px)}
+  }
+
+  /* generic sections */
+  section{padding-block:clamp(3rem,7vw,4.5rem)}
+  .divider{border-top:1px solid var(--line-soft)}
+  h2{font-size:clamp(1.375rem,1.2rem + 0.8vw,1.875rem);letter-spacing:-0.02em;font-weight:650;margin:0 0 .5rem}
+  .section-note{color:var(--muted);margin:0 0 2.5rem;max-width:58ch}
+
+  /* services */
+  .cards{display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(min(17rem,100%),1fr))}
+  .card{
+    background:var(--surface);border:1px solid var(--line);border-radius:14px;
+    padding:1.5rem;display:flex;flex-direction:column;
+  }
+  .card h3{font-size:1.125rem;font-weight:650;margin:0 0 .5rem;letter-spacing:-0.01em}
+  .card p{color:var(--muted);margin:0;font-size:.9375rem}
+  .card .tag{
+    align-self:flex-start;margin-bottom:.875rem;font-size:.6875rem;font-weight:600;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--teal);
+    background:rgba(0,230,230,.1);border:1px solid rgba(0,230,230,.28);
+    padding:.2rem .5rem;border-radius:999px;
+  }
+  .card.muted .tag{color:var(--muted);background:rgba(140,164,171,.1);border-color:rgba(140,164,171,.25)}
+
+  /* method list */
+  .method{display:grid;gap:2rem 3rem;grid-template-columns:repeat(auto-fit,minmax(min(21rem,100%),1fr));counter-reset:m}
+  .method>div{position:relative;padding-top:2.25rem}
+  .method>div::before{
+    counter-increment:m;content:counter(m,decimal-leading-zero);
+    position:absolute;top:0;left:0;color:var(--teal);
+    font-size:.8125rem;font-weight:700;letter-spacing:.1em;
+  }
+  .method h3{font-size:1rem;font-weight:650;margin:0 0 .375rem;letter-spacing:-0.01em}
+  .method p{color:var(--muted);margin:0;font-size:.9375rem;max-width:40ch}
+
+  /* Mickle band — a product section, deliberately carrying Mickle's own green */
+  .product-band{
+    background:
+      radial-gradient(120% 140% at 12% 0%, rgba(74,222,128,.09) 0%, transparent 58%),
+      var(--surface);
+    border:1px solid color-mix(in srgb,var(--mickle) 22%,var(--line));
+    border-radius:18px;padding:clamp(1.5rem,4vw,2.75rem);
+  }
+  .pb-head{display:flex;align-items:center;gap:.875rem;flex-wrap:wrap;margin-bottom:1rem}
+  .pb-mark{
+    width:46px;height:46px;flex:none;background:var(--ground);
+    border:1px solid color-mix(in srgb,var(--mickle) 30%,var(--line));
+    border-radius:12px;display:grid;place-items:center;
+  }
+  .pb-name{font-size:1.5rem;font-weight:670;letter-spacing:-0.02em}
+  .chip{
+    display:inline-block;font-size:.6875rem;font-weight:600;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--mickle);
+    background:color-mix(in srgb,var(--mickle) 12%,transparent);
+    border:1px solid color-mix(in srgb,var(--mickle) 30%,transparent);
+    padding:.25rem .625rem;border-radius:999px;white-space:nowrap;
+  }
+  .product-band>p{color:var(--muted);margin:0 0 1.75rem;max-width:62ch}
+  .product-band>p strong{color:var(--text);font-weight:600}
+  .pb-points{
+    list-style:none;margin:0 0 2rem;padding:0;display:grid;
+    gap:.875rem 2.5rem;grid-template-columns:repeat(auto-fit,minmax(min(22rem,100%),1fr));
+  }
+  .pb-points li{position:relative;padding-left:1.5rem;color:var(--muted);font-size:.9375rem}
+  .pb-points li::before{
+    content:"";position:absolute;left:0;top:.55em;width:7px;height:7px;
+    border-radius:2px;background:var(--mickle);
+  }
+  .pb-points li b{color:var(--text);font-weight:600}
+  .btn-mickle{background:var(--mickle);color:#04120A}
+  .btn-mickle:hover{background:var(--mickle-dim);text-decoration:none}
+  .btn{
+    display:inline-flex;align-items:center;gap:.5rem;padding:.6875rem 1.25rem;
+    border-radius:10px;font-size:.9375rem;font-weight:600;border:1px solid transparent;
+  }
+  .btn-primary{background:var(--teal);color:#001414}
+  .btn-primary:hover{background:var(--teal-dim);text-decoration:none}
+  .btn-quiet{border-color:var(--line);color:var(--text)}
+  .btn-quiet:hover{border-color:var(--muted);text-decoration:none}
+  .actions{display:flex;flex-wrap:wrap;gap:.75rem}
+
+  /* contact */
+  .contact-lead{display:flex;flex-wrap:wrap;gap:1rem 2rem;align-items:center}
+  .contact-email{
+    font-size:clamp(1.125rem,1rem + 0.7vw,1.5rem);font-weight:620;
+    letter-spacing:-0.01em;word-break:break-word;
+  }
+  .contact-aside{
+    margin:2.25rem 0 0;padding-top:1.5rem;border-top:1px solid var(--line-soft);
+    color:var(--muted);font-size:.9375rem;max-width:56ch;
+  }
+
+  /* footer */
+  footer{border-top:1px solid var(--line-soft);padding-block:2.5rem 3rem;color:var(--muted);font-size:.875rem}
+  .foot{display:flex;flex-wrap:wrap;gap:1rem 2rem;justify-content:space-between;align-items:flex-start}
+  .foot ul{list-style:none;display:flex;flex-wrap:wrap;gap:1rem;margin:0;padding:0}
+  .foot a{color:var(--muted)}
+  .foot a:hover{color:var(--text)}
+  .legal-note{margin:1.5rem 0 0;max-width:64ch;line-height:1.6}
+
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="./">
+      <img src="images/logo-mark.png" alt="" width="34">
+      <span class="brand-name">Diverion <span>Tech</span></span>
+    </a>
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="#consulting">Consulting</a></li>
+        <li><a href="#method">Method</a></li>
+        <li><a class="tab-product" href="mickle/">Mickle</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <div class="wrap hero">
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">Dibrugarh · Assam</p>
+        <h1>Business decisions built on evidence, not guesswork.</h1>
+        <p class="lede">
+          Diverion Consulting works with businesses in Dibrugarh — and across Assam —
+          to find where growth is actually available. The starting point is public
+          economic data, read closely and applied to one business at a time.
+        </p>
+        <div class="actions">
+          <a class="btn btn-primary" href="mailto:consulting@diveriontech.com?subject=Consulting%20enquiry">
+            Start a conversation
+          </a>
+          <a class="btn btn-quiet" href="#consulting">What's offered</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <img src="images/logo-mark.png" alt="Diverion Tech eagle mark" width="340">
+      </div>
+    </div>
+  </div>
+
+  <section id="consulting" class="divider">
+    <div class="wrap">
+      <h2>What Diverion Consulting offers</h2>
+      <p class="section-note">
+        A small, deliberate set of services — offered only where the work can be
+        done properly.
+      </p>
+
+      <div class="cards">
+        <div class="card">
+          <span class="tag">Core service</span>
+          <h3>Business consulting</h3>
+          <p>
+            Working through where sales are being left on the table, which risks are
+            worth acting on, and which opportunities in the local market are going
+            unexplored — then turning that into decisions the business can actually make.
+          </p>
+        </div>
+        <div class="card">
+          <span class="tag">Available</span>
+          <h3>Websites</h3>
+          <p>
+            For clients who need a website and don't have one. Built and handed over,
+            with any pass-through costs — domain registration and the like — billed
+            at cost rather than marked up.
+          </p>
+        </div>
+        <div class="card muted">
+          <span class="tag">Planned</span>
+          <h3>Branding &amp; social media</h3>
+          <p>
+            Brand identity and social media marketing are intended additions to the
+            service range, not current offerings. Listed here so clients know the
+            direction rather than being told it already exists.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="method" class="divider">
+    <div class="wrap">
+      <h2>How the work is done</h2>
+      <p class="section-note">Four things that shape every engagement.</p>
+
+      <div class="method">
+        <div>
+          <h3>Public data, read properly</h3>
+          <p>
+            Government economic data for Assam, Dibrugarh district and Kamrup
+            Metropolitan district — sourced openly, and interpreted rather than
+            simply reprinted.
+          </p>
+        </div>
+        <div>
+          <h3>Local context, not templates</h3>
+          <p>
+            A recommendation that works in a metro often fails in Dibrugarh.
+            Advice is shaped by the market the business is actually operating in.
+          </p>
+        </div>
+        <div>
+          <h3>Decisions, not documents</h3>
+          <p>
+            The output is something to act on — a clear call with the reasoning
+            behind it — rather than a report that describes the situation back
+            to the person already living it.
+          </p>
+        </div>
+        <div>
+          <h3>Billing you can predict</h3>
+          <p>
+            Consultations are charged, and any expenses incurred on a client's
+            behalf appear as billables at cost. No surprises on the invoice.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="mickle" class="divider">
+    <div class="wrap">
+      <h2>Also from Diverion Tech</h2>
+      <p class="section-note">
+        Consulting is the primary work. Mickle is a separate product, with its own
+        identity and its own place on this site.
+      </p>
+
+      <div class="product-band">
+        <div class="pb-head">
+          <span class="pb-mark" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <path d="M3 18.5 L8 9.5 L12.5 14.5 L17 4.5 L21 11"
+                    stroke="#4ADE80" stroke-width="2.4"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="pb-name">Mickle</span>
+          <span class="chip">Android · Coming soon</span>
+        </div>
+
+        <p>
+          A personal finance tracker that holds only what you tell it. Mickle records
+          the income, spending, investments and budgets that <strong>you enter
+          yourself</strong> — it never connects to a bank, reads SMS, or touches
+          notifications. Free, with no advertising and no data sale.
+        </p>
+
+        <ul class="pb-points">
+          <li><b>Budgets and categories</b> that show where the month actually went</li>
+          <li><b>Credit card cycles</b> tracked against real statement dates</li>
+          <li><b>Printable reports</b> and CSV export, any time</li>
+          <li><b>Permanent deletion</b> enforced at the database</li>
+        </ul>
+
+        <div class="actions">
+          <a class="btn btn-mickle" href="mickle/">Explore Mickle</a>
+          <a class="btn btn-quiet" href="https://mickle.diveriontech.com/legal/privacy.html">
+            Privacy policy
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="divider">
+    <div class="wrap">
+      <h2>Get in touch</h2>
+      <p class="section-note">Dibrugarh, Assam. Remote engagements considered.</p>
+
+      <div class="contact-lead">
+        <a class="contact-email" href="mailto:consulting@diveriontech.com">consulting@diveriontech.com</a>
+        <a class="btn btn-primary" href="mailto:consulting@diveriontech.com?subject=Consulting%20enquiry">
+          Send an enquiry
+        </a>
+      </div>
+
+      <p class="contact-aside">
+        Using the Mickle app? Support for it is handled separately —
+        <a href="mickle/#contact">the Mickle page</a> has the right address.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>© 2026 Ishan Savio Kerketta</div>
+      <ul>
+        <li><a href="mickle/">Mickle</a></li>
+        <li><a href="mailto:consulting@diveriontech.com">Contact</a></li>
+      </ul>
+    </div>
+    <p class="legal-note">
+      Diverion Tech is a trading name of Ishan Savio Kerketta, operating as an
+      individual in India. It is not a registered company. Consulting engagements
+      are commercial advisory services and do not constitute financial, investment,
+      legal or tax advice.
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

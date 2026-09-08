@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mickle — a personal finance tracker that holds only what you tell it</title>
+<meta name="description" content="Mickle is a free personal finance tracker for Android. Manual entry only — no bank connection, no ads, no data sale. Built by Diverion Tech.">
+<meta name="theme-color" content="#0A0E0C">
+
+<link rel="icon" href="../images/logo-mark.png" type="image/png">
+
+<meta property="og:title" content="Mickle">
+<meta property="og:description" content="A personal finance tracker that holds only what you tell it. Free, Android, no ads.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://diveriontech.com/mickle/">
+
+<style>
+  :root{
+    --ground:#0A0E0C;
+    --surface:#111714;
+    --surface-2:#161D19;
+    --line:#1F2A24;
+    --text:#E9EFEB;
+    --muted:#94A39B;
+    --accent:#4ADE80;
+    --accent-dim:#22C55E;
+    --max:1080px;
+    --pad:clamp(1.25rem,5vw,2.5rem);
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--ground);color:var(--text);
+    font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    font-size:clamp(1rem,0.96rem + 0.2vw,1.0625rem);line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;height:auto}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline;text-underline-offset:3px}
+  a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+  .wrap{max-width:var(--max);margin-inline:auto;padding-inline:var(--pad)}
+  .skip{position:absolute;left:-9999px;background:var(--accent);color:#04120A;padding:.6rem 1rem;font-weight:600;z-index:10}
+  .skip:focus{left:0;top:0}
+
+  /* parent strip */
+  .parent{background:#04070A;border-bottom:1px solid #101B20;font-size:.8125rem}
+  .parent .wrap{display:flex;align-items:center;gap:.5rem;padding-block:.5rem;color:#8CA4AB}
+  .parent img{width:18px;height:auto;display:block}
+  .parent a{color:#00E6E6}
+
+  header{
+    position:sticky;top:0;z-index:5;
+    background:color-mix(in srgb,var(--ground) 90%,transparent);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
+  }
+  .bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-block:1rem}
+  .brand{display:inline-flex;align-items:center;gap:.6rem;color:var(--text);font-weight:650;letter-spacing:-0.01em;font-size:1.0625rem;white-space:nowrap}
+  .brand:hover{text-decoration:none}
+  .mark{width:30px;height:30px;flex:none;background:var(--surface-2);border:1px solid var(--line);border-radius:8px;display:grid;place-items:center}
+  nav ul{display:flex;gap:1.5rem;list-style:none;margin:0;padding:0;align-items:center}
+  nav a{color:var(--muted);font-size:.9375rem;position:relative;padding-block:.25rem}
+  nav a:hover{color:var(--text);text-decoration:none}
+  /* product tab, active on this page */
+  .tab-product{
+    color:#04120A;background:var(--accent);border:1px solid var(--accent);
+    border-radius:999px;padding:.3rem .75rem;font-weight:600;
+  }
+  .tab-product:hover{background:var(--accent-dim);border-color:var(--accent-dim);color:#04120A;text-decoration:none}
+  @media (max-width:36rem){
+    .bar{gap:.5rem}
+    .brand{font-size:.9375rem;gap:.5rem}
+    .mark{width:26px;height:26px;border-radius:7px}
+    nav ul{gap:.875rem}nav a{font-size:.8125rem}
+  }
+  @media (max-width:30rem){
+    .bar{flex-wrap:wrap;justify-content:center;gap:.375rem;padding-block:.75rem}
+    nav{width:100%}nav ul{justify-content:center;gap:1.25rem}
+  }
+
+  .hero{padding-block:clamp(3.5rem,10vw,6rem) clamp(2.5rem,7vw,4rem)}
+  .badge{
+    display:inline-block;font-size:.75rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+    color:var(--accent);background:color-mix(in srgb,var(--accent) 14%,transparent);
+    border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);
+    padding:.25rem .625rem;border-radius:999px;margin:0 0 1.25rem;
+  }
+  h1{font-size:clamp(2.25rem,1.6rem + 3.2vw,3.5rem);line-height:1.08;letter-spacing:-0.03em;font-weight:680;margin:0 0 1.25rem;max-width:20ch}
+  .lede{font-size:clamp(1.0625rem,1rem + 0.45vw,1.25rem);color:var(--muted);margin:0 0 2rem;max-width:56ch}
+  .lede strong{color:var(--text);font-weight:600}
+
+  section{padding-block:clamp(3rem,7vw,4.5rem)}
+  .divider{border-top:1px solid var(--line)}
+  h2{font-size:clamp(1.375rem,1.2rem + 0.8vw,1.75rem);letter-spacing:-0.02em;font-weight:650;margin:0 0 .5rem}
+  .section-note{color:var(--muted);margin:0 0 2.25rem;max-width:58ch}
+
+  .features{list-style:none;margin:0;padding:0;display:grid;gap:.875rem 2rem;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr))}
+  .features li{position:relative;padding-left:1.5rem;color:var(--muted);font-size:.9375rem}
+  .features li::before{content:"";position:absolute;left:0;top:.55em;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+  .features li b{color:var(--text);font-weight:600}
+
+  .grid{display:grid;gap:1.75rem 2.5rem;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr))}
+  .grid h3{font-size:1rem;font-weight:650;margin:0 0 .4rem;letter-spacing:-0.01em}
+  .grid p{color:var(--muted);margin:0;font-size:.9375rem;max-width:40ch}
+
+  .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.6875rem 1.25rem;border-radius:10px;font-size:.9375rem;font-weight:600;border:1px solid transparent}
+  .btn-primary{background:var(--accent);color:#04120A}
+  .btn-primary:hover{background:var(--accent-dim);text-decoration:none}
+  .btn-quiet{border-color:var(--line);color:var(--text)}
+  .btn-quiet:hover{border-color:var(--muted);text-decoration:none}
+  .actions{display:flex;flex-wrap:wrap;gap:.75rem}
+
+  .rows{display:grid;margin:0}
+  .row{display:flex;flex-wrap:wrap;gap:.25rem 1rem;padding-block:1rem;border-top:1px solid var(--line)}
+  .row:first-child{border-top:0;padding-top:0}
+  .row dt{color:var(--muted);font-size:.9375rem;min-width:11rem;margin:0}
+  .row dd{margin:0;font-size:.9375rem}
+
+  footer{border-top:1px solid var(--line);padding-block:2.5rem 3rem;color:var(--muted);font-size:.875rem}
+  .foot{display:flex;flex-wrap:wrap;gap:1rem 2rem;justify-content:space-between;align-items:flex-start}
+  .foot ul{list-style:none;display:flex;flex-wrap:wrap;gap:1rem;margin:0;padding:0}
+  .foot a{color:var(--muted)}
+  .foot a:hover{color:var(--text)}
+  .legal-note{margin:1.5rem 0 0;max-width:64ch;line-height:1.6}
+
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="parent">
+  <div class="wrap">
+    <img src="../images/logo-mark.png" alt="" width="18">
+    <span>A product of <a href="../">Diverion Tech</a></span>
+  </div>
+</div>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="./">
+      <span class="mark" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M3 18.5 L8 9.5 L12.5 14.5 L17 4.5 L21 11" stroke="#4ADE80" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span>Mickle</span>
+    </a>
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="../#consulting">Consulting</a></li>
+        <li><a href="../#method">Method</a></li>
+        <li><a class="tab-product" href="./" aria-current="page">Mickle</a></li>
+        <li><a href="#contact">Support</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <div class="wrap hero">
+    <p class="badge">Android · Coming soon</p>
+    <h1>A finance tracker that holds only what you tell it.</h1>
+    <p class="lede">
+      Mickle records the income, spending, investments and budgets that
+      <strong>you enter yourself</strong>. It never connects to your bank, reads your
+      SMS, or touches your notifications. Every figure in it got there because you
+      typed it — and it stays yours.
+    </p>
+    <div class="actions">
+      <a class="btn btn-primary" href="mailto:support@diveriontech.com?subject=Mickle%20launch%20updates">
+        Get launch updates
+      </a>
+      <a class="btn btn-quiet" href="https://mickle.diveriontech.com/legal/privacy.html">
+        Read the privacy policy
+      </a>
+    </div>
+  </div>
+
+  <section id="features" class="divider">
+    <div class="wrap">
+      <h2>What it does</h2>
+      <p class="section-note">Everything below works offline of your bank, because there is no bank connection at all.</p>
+      <ul class="features">
+        <li><b>Budgets and categories</b> that show where the month actually went</li>
+        <li><b>Credit card cycles</b> tracked against real statement dates</li>
+        <li><b>Printable reports</b> and CSV export — your data leaves whenever you want</li>
+        <li><b>App lock</b> with device biometrics</li>
+        <li><b>Permanent deletion</b> enforced at the database, not just hidden</li>
+        <li><b>Free</b> — no subscription, no ads, no in-app purchases</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="privacy" class="divider">
+    <div class="wrap">
+      <h2>On your data</h2>
+      <p class="section-note">Three commitments that shape every decision in the app.</p>
+      <div class="grid">
+        <div>
+          <h3>Your data is not the product</h3>
+          <p>Nothing is sold, shared, or brokered — a commitment written into the Terms without a liability cap, because it is entirely ours to keep.</p>
+        </div>
+        <div>
+          <h3>Collect as little as possible</h3>
+          <p>An email address and the entries you choose to log. No bank connections, no contact lists, no location, no advertising identifiers.</p>
+        </div>
+        <div>
+          <h3>Leaving is as easy as joining</h3>
+          <p>Full export in one tap, and permanent deletion that actually deletes. Software you cannot leave is software you cannot trust.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="divider">
+    <div class="wrap">
+      <h2>Support</h2>
+      <p class="section-note">Real addresses, read by a real person.</p>
+      <dl class="rows">
+        <div class="row">
+          <dt>App support</dt>
+          <dd><a href="mailto:support@diveriontech.com">support@diveriontech.com</a></dd>
+        </div>
+        <div class="row">
+          <dt>Privacy and grievances</dt>
+          <dd><a href="mailto:grievance@diveriontech.com">grievance@diveriontech.com</a></dd>
+        </div>
+        <div class="row">
+          <dt>Security disclosure</dt>
+          <dd><a href="mailto:security@diveriontech.com">security@diveriontech.com</a></dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>© 2026 Ishan Savio Kerketta</div>
+      <ul>
+        <li><a href="../">Diverion Tech</a></li>
+        <li><a href="https://mickle.diveriontech.com/legal/terms.html">Terms</a></li>
+        <li><a href="https://mickle.diveriontech.com/legal/privacy.html">Privacy</a></li>
+        <li><a href="https://mickle.diveriontech.com/legal/delete-account.html">Delete account</a></li>
+      </ul>
+    </div>
+    <p class="legal-note">
+      Mickle is published by Diverion Tech, a trading name of Ishan Savio Kerketta,
+      operating as an individual in India. It is not a registered company. Mickle is
+      a record-keeping tool and does not provide financial advice.
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
