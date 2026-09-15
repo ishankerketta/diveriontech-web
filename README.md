@@ -1,6 +1,7 @@
 # diveriontech-web
 
-The Diverion Tech website — static pages served by GitHub Pages.
+The Diverion Tech website — static pages served by GitHub Pages at
+**https://diveriontech.com**.
 
 No build step, no dependencies. Each page is self-contained: all CSS inline, no
 external scripts or fonts. The only assets are two local PNGs. Edit and push.
@@ -13,7 +14,7 @@ mickle/index.html   Mickle product page (keeps its own green identity)
 images/
   logo-mark.png     eagle mark, transparent background, 320px wide
   logo-lockup.png   eagle + DIVERION TECH wordmark, transparent, 640px wide
-CNAME               custom domain for GitHub Pages
+CNAME               diveriontech.com — written by GitHub, do not hand-edit
 ```
 
 ## Navigation
@@ -63,29 +64,27 @@ row to the consulting contact block.
 
 ## Deploying
 
-1. Push to GitHub as a **project repo** — e.g. `diveriontech-web`.
-   Do **not** name it `ishankerketta.github.io`; the `mickle` DNS CNAME points at
-   that hostname, and a user-site repo claiming a custom domain can start
-   redirecting it.
-2. Settings → Pages → Source: `main` branch, `/ (root)`.
-3. Live at `https://ishankerketta.github.io/diveriontech-web/`. Verify there first.
+Push to `main`. GitHub Pages rebuilds automatically (Settings → Pages, source
+`main` / root).
 
-## Pointing diveriontech.com at it — LATER
+The repo is deliberately a **project repo**, not `ishankerketta.github.io` — the
+`mickle` DNS CNAME points at that hostname, and a user-site repo claiming a
+custom domain can start redirecting it.
 
-**Do not do this while Google Play production access is under review.** Nothing
-here is needed for that review.
+## Domain configuration — LIVE as of 15 Sept 2026
 
-When ready, in Squarespace → Domains → diveriontech.com → DNS Settings:
+`diveriontech.com` and `www.diveriontech.com` both serve this repo over HTTPS.
+`www` 301s to the apex via GitHub's automatic redirect. **Nothing here needs
+doing — this section is a record of the working configuration.**
 
-**Delete the entire "Squarespace Defaults" block.** That removes the four parking
-`A @` records, the `www` CNAME to `ext-sq.squarespace.com`, and the `HTTPS @`
-record. All three are Squarespace website records; nothing in Mickle uses them.
+**Squarespace is the registrar only.** No Squarespace website plan. The
+"Squarespace Defaults" preset block was deleted entirely: four parking `A @`
+records, `CNAME www → ext-sq.squarespace.com`, and an `HTTPS @` record whose
+`ipv4hint` still pointed at Squarespace IPs (that last one matters — browsers
+honouring HTTPS resource records can be steered back to Squarespace even with
+correct A records).
 
-> The `HTTPS @` record matters. Its `ipv4hint` still lists Squarespace IPs, so
-> browsers honouring HTTPS resource records can be steered back to Squarespace
-> even after the A records are correct. It must go.
-
-Then add, under **Custom records**:
+Current records under **Custom records**, TTL 4 hrs:
 
 | Type | Name | Data |
 |---|---|---|
@@ -99,8 +98,21 @@ Then add, under **Custom records**:
 | AAAA | @ | 2606:50c0:8003::153 |
 | CNAME | www | ishankerketta.github.io |
 
-Finally: Settings → Pages → Custom domain → `diveriontech.com`, wait for the DNS
-check to pass, then tick **Enforce HTTPS**.
+GitHub side: Settings → Pages → Custom domain `diveriontech.com`, Enforce HTTPS
+ticked. **Setting the custom domain there is what created the `CNAME` file in
+this repo — never write that file by hand.** Committing a CNAME before DNS
+resolves makes Pages redirect the github.io URL to a domain that doesn't answer,
+taking the site dark at both addresses.
+
+### If this ever needs redoing
+
+- Squarespace demands **step-up 2FA partway through a DNS editing session** and
+  does not say so — the ADD RECORD button just silently stops responding. Look
+  for the verification modal before assuming the UI is broken.
+- The TYPE dropdown **opens upward** when the form sits low in the viewport, and
+  a mis-aimed click lands on TXT. Confirm the type before saving each record.
+- **Verify against a resolver, not the console.** Two A records were missed on
+  the first pass and the panel looked complete. `dig @8.8.8.8 A diveriontech.com`.
 
 ## Records that must NEVER be touched
 
@@ -108,7 +120,7 @@ These live in **Custom records** and carry email and Mickle's hosted pages.
 
 | Record | Purpose |
 |---|---|
-| `CNAME mickle → ishankerketta.github.io` | Mickle legal + auth confirm pages |
+| `CNAME mickle → ishankerketta.github.io` | Mickle legal + auth confirm pages (`mickle-web` repo) |
 | `MX @ → smtp.google.com` | Google Workspace mail |
 | `MX send → feedback-smtp.ap-northeast-1.amazonses.com` | Resend bounce handling |
 | `TXT @ → v=spf1 include:_spf.google.com ~all` | SPF (Workspace) |
@@ -120,31 +132,28 @@ These live in **Custom records** and carry email and Mickle's hosted pages.
 A broken SPF or DKIM record produces no error — Mickle's password-reset and
 signup-confirmation emails simply start landing in spam.
 
-## Before this goes live
+## Open items
 
-- [ ] **Create `consulting@diveriontech.com`.** Make it an **alias → inbox**, not
-      a Google Group. Client correspondence gets replied to personally; the Group
-      pattern (`support@`, `grievance@`) is for open-to-receive, closed-to-read.
-      **Configure Gmail send-as for it** — otherwise replies leave from `ceo@`
-      and re-expose the address that was deliberately scrubbed from the legal
-      pages. The site links `consulting@` in two places and it must not bounce.
-- [ ] **Screen the eagle mark.** It was generated with ChatGPT. Trademark rights
-      come from use in commerce, so filing is unaffected — but copyright
-      exclusivity over AI-generated artwork is doubtful, and eagle-plus-monogram
-      is a crowded genre. Run it through the WIPO Global Brand Database, as the
-      name was, before any signage or print spend.
-- [ ] **Play Store link.** The Mickle page reads "Coming soon" and collects
-      interest by email. Replace with the real listing URL once production access
-      is granted, in both `mickle/index.html` and the homepage venture card.
-- [ ] **The Assam dashboard is described as method, not product.** Keep it that
-      way until it is actually built and usable with clients.
-
-## Later
-
-- `_dmarc` publishes `ceo@diveriontech.com` in its `rua=` field, which is
-  publicly queryable. Point it at a role address — but not during the Play review.
-- If the homepage outgrows itself, split Consulting onto `/consulting/` and leave
-  the homepage as a short parent landing.
+- [ ] **Gmail send-as for `consulting@`.** The alias exists and receives, but an
+      alias does not send. Without Gmail → Settings → Accounts → "Send mail as",
+      every reply to a client leaves from `ceo@diveriontech.com` — the recovery
+      address for Play Console, Supabase, Resend and the registrar, deliberately
+      kept off every public page. Test: mail the alias from outside, reply, read
+      the From: line.
+- [ ] **Screen the eagle mark.** Generated with ChatGPT. Trademark rights come
+      from use in commerce so filing is unaffected, but copyright exclusivity
+      over AI-generated artwork is doubtful and eagle-plus-monogram is a crowded
+      genre. Run it through the WIPO Global Brand Database, as the name was,
+      before any signage or print spend.
+- [ ] **Play Store link.** Mickle reads "Coming soon" in two places
+      (`mickle/index.html` hero and the homepage Mickle section). Replace both
+      with the real listing URL once production access is granted — earliest
+      25 Sept 2026, and only after the 14-day continuous-tester clock completes.
+- [ ] **`_dmarc` publishes `ceo@diveriontech.com`** in its `rua=` field, which is
+      publicly queryable. Point it at a role address. Safe to do now — no Play
+      application is pending.
+- [ ] **The Assam dashboard stays described as method, not product** until it is
+      actually built and usable with clients.
 
 ## Images
 
